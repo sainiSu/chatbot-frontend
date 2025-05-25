@@ -1,17 +1,32 @@
-import { useState } from 'react';
-import io from 'socket.io-client';
+import { useState, useEffect } from 'react';
+import { io } from 'socket.io-client';  // use named import for socket.io-client
 import Chat from './Chat';
 
-// Connect to the Render backend URL
-const socket = io('https://chatbot-1-wilk.onrender.com');
+// Updated: Use environment variable for backend URL (better practice)
+const SOCKET_URL = process.env.REACT_APP_BACKEND_URL || 'https://hatbot-backend.onrender.com';
 
+// Updated: Initialize socket inside the component or in useEffect to avoid stale connections and duplicate sockets
 function App() {
   const [username, setUsername] = useState('');
   const [room, setRoom] = useState('');
   const [hasJoinedRoom, setHasJoinedRoom] = useState(false);
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    // Create socket connection only once when component mounts
+    const newSocket = io(SOCKET_URL, {
+      transports: ['websocket', 'polling'],
+      withCredentials: true,
+    });
+
+    setSocket(newSocket);
+
+    // Cleanup socket connection on unmount
+    return () => newSocket.disconnect();
+  }, []);
 
   const joinRoom = () => {
-    if (username.trim() !== '' && room.trim() !== '') {
+    if (username.trim() !== '' && room.trim() !== '' && socket) {
       socket.emit('join_room', room);
       setHasJoinedRoom(true);
     }
@@ -42,7 +57,8 @@ function App() {
           </button>
         </div>
       ) : (
-        <Chat socket={socket} username={username} room={room} hasJoinedRoom={hasJoinedRoom} />
+        // Pass socket only if initialized
+        socket && <Chat socket={socket} username={username} room={room} hasJoinedRoom={hasJoinedRoom} />
       )}
     </div>
   );
