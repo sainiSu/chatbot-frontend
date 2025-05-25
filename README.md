@@ -87,3 +87,16 @@ node index.js
 In Terminal 2 (Frontend):
 cd client
 npm start
+
+
+GitHub Link:- 
+
+Backend:- https://github.com/sainiSu/hatbot-backend
+
+frontend:- https://github.com/sainiSu/chatbot-frontend
+
+Live Demo :- https://chatbot-frontend-ashen-eight.vercel.app/
+
+Bcakend URL :- https://hatbot-backend.onrender.com
+
+(Backend deployed on render.)

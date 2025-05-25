@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { io } from 'socket.io-client';  // use named import for socket.io-client
+import { io } from 'socket.io-client';  
 import Chat from './Chat';
 
 // Updated: Use environment variable for backend URL (better practice)
