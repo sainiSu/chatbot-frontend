@@ -2,8 +2,8 @@ import { useState } from 'react';
 import io from 'socket.io-client';
 import Chat from './Chat';
 
+// Connect to the Render backend URL
 const socket = io('https://chatbot-1-wilk.onrender.com');
-
 
 function App() {
   const [username, setUsername] = useState('');
