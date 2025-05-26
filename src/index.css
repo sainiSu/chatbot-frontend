@@ -2,4 +2,87 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .animate-meteor {
+    animation: meteor 3s linear infinite;
+  }
 
+  .delay-1000 {
+    animation-delay: 1s;
+  }
+
+  .delay-2000 {
+    animation-delay: 2s;
+  }
+
+  @keyframes meteor {
+    0% {
+      transform: translateX(0) translateY(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(500px) translateY(200px) scale(0.5);
+      opacity: 0;
+    }
+  }
+}
+
+
+.bubble {
+  position: absolute;
+  border-radius: 9999px;
+  opacity: 0.2;
+  animation: float 8s ease-in-out infinite;
+    
+}
+
+.bubble:nth-child(1) {
+  width: 60px;
+  height: 60px;
+  bottom: -20px;
+  left: 10%;
+  animation-delay: 0s;
+}
+.bubble:nth-child(2) {
+  width: 90px;
+  height: 90px;
+  bottom: -30px;
+  left: 40%;
+  animation-delay: 2s;
+}
+.bubble:nth-child(3) {
+  width: 50px;
+  height: 50px;
+  bottom: -10px;
+  right: 20%;
+  animation-delay: 4s;
+}
+.bubble:nth-child(4) {
+  width: 70px;
+  height: 70px;
+  top: -20px;
+  right: 5%;
+  animation-delay: 6s;
+}
+.bubble:nth-child(5) {
+  width: 40px;
+  height: 40px;
+  top: -10px;
+  left: 25%;
+  animation-delay: 1s;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px) scale(1.05); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: floaty 6s ease-in-out infinite;
+}

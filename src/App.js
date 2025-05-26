@@ -2,10 +2,8 @@ import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';  
 import Chat from './Chat';
 
-// Updated: Use environment variable for backend URL (better practice)
 const SOCKET_URL = process.env.REACT_APP_BACKEND_URL || 'https://hatbot-backend.onrender.com';
 
-// Updated: Initialize socket inside the component or in useEffect to avoid stale connections and duplicate sockets
 function App() {
   const [username, setUsername] = useState('');
   const [room, setRoom] = useState('');
@@ -13,15 +11,12 @@ function App() {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    // Create socket connection only once when component mounts
     const newSocket = io(SOCKET_URL, {
       transports: ['websocket', 'polling'],
       withCredentials: true,
     });
-
     setSocket(newSocket);
 
-    // Cleanup socket connection on unmount
     return () => newSocket.disconnect();
   }, []);
 
@@ -33,31 +28,43 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-sky-50 via-blue-200 to-sky-200 p-4">
+
+    <div className="min-h-screen relative flex items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-800 to-black p-4 overflow-hidden">
+
+      <div className="absolute top-0 left-0 w-full h-full z-0 overflow-hidden">
+        <div className="animate-meteor absolute top-10 left-1/4 w-1 h-1 bg-white rounded-full shadow-lg"></div>
+        <div className="animate-meteor delay-1000 absolute top-20 left-1/3 w-1 h-1 bg-white rounded-full shadow-lg"></div>
+        <div className="animate-meteor delay-2000 absolute top-40 left-2/3 w-1 h-1 bg-white rounded-full shadow-lg"></div>
+      </div>
+
       {!hasJoinedRoom ? (
-        <div className="bg-white/30 backdrop-blur-md p-8 rounded-3xl shadow-2xl max-w-md w-full border border-white/20">
-          <h2 className="text-3xl font-bold text-black mb-6 text-center drop-shadow-md">🎧 Join a Chat Room</h2>
+
+        <div className="z-10 bg-white/10 backdrop-blur-lg p-10 rounded-3xl shadow-[0_20px_50px_rgba(255,255,255,0.2)] max-w-xl w-full border border-white/30 animate-float ">
+
+          <h4 className="text-2xl font-bold text-fuchsia-100  font-serif mb-6 text-center drop-shadow-md tracking-wider">
+            Enter the Galaxy Chat
+          </h4>
           <input
-            className="w-full p-3 mb-4 rounded-xl bg-white/80 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-white shadow-md"
+            className="w-full p-3 mb-4 rounded-xl bg-white/70 placeholder-gray-700 text-gray-900 focus:outline-none focus:ring-2 focus:ring-pink-300 shadow-md"
             placeholder="Enter your name"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
           <input
-            className="w-full p-3 mb-4 rounded-xl bg-white/80 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-white shadow-md"
+            className="w-full p-3 mb-4 rounded-xl bg-white/70 placeholder-gray-700 text-gray-900 focus:outline-none focus:ring-2 focus:ring-pink-300 shadow-md"
             placeholder="Enter room ID"
             value={room}
             onChange={(e) => setRoom(e.target.value)}
           />
           <button
             onClick={joinRoom}
-            className="w-full bg-white text-purple-700 font-bold py-3 rounded-xl hover:bg-pink-100 transition duration-300 shadow-lg"
+            className="w-full bg-gradient-to-r from-pink-400 to-purple-500  font-bold py-3 rounded-xl hover:scale-105 transition-transform duration-300 shadow-lg hover:ring-4 hover:ring-fuchsia-200
+"
           >
-            Join Room
+           🚀 Launch Into Chat
           </button>
         </div>
       ) : (
-        // Pass socket only if initialized
         socket && <Chat socket={socket} username={username} room={room} hasJoinedRoom={hasJoinedRoom} />
       )}
     </div>
